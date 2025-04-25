@@ -14,7 +14,7 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) throws Exception {
         // Load dữ liệu từ file ARFF
-        DataSource source = new DataSource("src/dmproject/resources/segment-challenge.arff");
+        DataSource source = new DataSource("source/segment-challenge.arff");
         Instances data = source.getDataSet();
 
         // Thiết lập cột class (label) là cột cuối cùng
