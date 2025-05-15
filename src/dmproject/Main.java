@@ -42,15 +42,52 @@ public class Main {
     static final int WINDOW_SIZE = 60;
 
     public static void main(String[] args) throws Exception {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the path to data_X.csv:");
+        String pathX = scanner.nextLine();
+
+        if (!isFileValid(pathX)) {
+            System.out.println("❌ File data_X.csv does not exist or the path is invalid.");
+            return;
+        }
+
+        System.out.println("Enter the path to data_Y.csv:");
+        String pathY = scanner.nextLine();
+
+        if (!isFileValid(pathY)) {
+            System.out.println("❌ File data_Y.csv does not exist or the path is invalid.");
+            return;
+        }
+
+        System.out.println("Enter the path to sample_submission.csv:");
+        String pathSubmission = scanner.nextLine();
+
+        if (!isFileValid(pathSubmission)) {
+            System.out.println("❌ File sample_submission.csv does not exist or the path is invalid.");
+            return;
+        }
+
         // Step 1: 
         // Convert CSV files to ARFF format
-        convertAllCsvToArff();
+        // convertAllCsvToArff("resources/original_data/data_X.csv",
+        //         "resources/original_data/data_Y.csv",
+        //         "resources/original_data/sample_submission.csv");
+        convertAllCsvToArff(pathX,pathY,pathSubmission);
 
         // Perform data integration processing
-        processFiles();
+        // processFiles("resources/original_data/data_X.csv",
+        //         "resources/original_data/data_Y.csv",
+        //         "resources/original_data/sample_submission.csv");
+        processFiles(pathX,pathY,pathSubmission);
+
 
         // Perform combined data processing
-        processFileCombine();
+        // processFileCombine("resources/original_data/data_X.csv",
+        //         "resources/original_data/data_Y.csv",
+        //         "resources/original_data/sample_submission.csv");
+        processFileCombine(pathX,pathY,pathSubmission);
 
 
 
@@ -354,18 +391,57 @@ public class Main {
         runModelFold("resources/processed_data/data_train_Group_Out_clean.arff");
         runModelFold("resources/processed_data/data_train_Group_Out_Cluster_clean.arff");
 
+
+
         // Step 6: Predict using 10-fold trained models
-        testModel("resources/model_10Fold/RandomForest_data_clean_model_10Fold.model",
-                "resources/processed_data/data_test_clean.arff",
-                "resources/processed_data/sample_clean.arff",
-                "data clean");
 
-        testModel("resources/model_10Fold/MultilayerPerceptron_data_Group_Out_clean_model_10Fold.model",
-                "resources/processed_data/data_test_Group_Out_clean.arff",
-                "resources/processed_data/sample_Group_Out_clean.arff",
-                "data group clean remove outline");
+        System.out.println("Enter the path to model:");
+        String pathModel= scanner.nextLine();
 
-        
+        // Check if files exist
+        if (!isFileValid(pathModel)) {
+            System.out.println("❌ File model does not exist or the path is invalid.");
+            return;
+        }
+
+        System.out.println("Enter the path to test.arff:");
+        String pathTest = scanner.nextLine();
+
+        // Check if files exist
+        if (!isFileValid(pathTest)) {
+            System.out.println("❌ File test.arff does not exist or the path is invalid.");
+            return;
+        }
+
+        System.out.println("Enter the path to sample_submission.arff:");
+        String pathSample = scanner.nextLine();
+
+        // Check if files exist
+        if (!isFileValid(pathX)) {
+            System.out.println("❌ File sample_submission.arff does not exist or the path is invalid.");
+            return;
+        }
+
+        System.out.println("Enter the name data file:");
+        String nameDataFile = scanner.nextLine();
+
+        // testModel("resources/model_10Fold/RandomForest_data_clean_model_10Fold.model",
+        //         "resources/processed_data/data_test_clean.arff",
+        //         "resources/processed_data/sample_clean.arff",
+        //         "data clean");
+
+        // testModel("resources/model_10Fold/MultilayerPerceptron_data_Group_Out_clean_model_10Fold.model",
+        //         "resources/processed_data/data_test_Group_Out_clean.arff",
+        //         "resources/processed_data/sample_Group_Out_clean.arff",
+        //         "data group clean remove outline");
+
+        testModel(pathModel,pathTest,pathSample,nameDataFile);
+
+    }
+
+    public static boolean isFileValid(String path) {
+        File file = new File(path);
+        return file.exists() && file.isFile();
     }
 
     public static void runModelFold(String path) throws Exception{
@@ -533,10 +609,7 @@ public class Main {
     }
     
 
-    public static void convertAllCsvToArff() {
-        final String inputPathX = "resources/original_data/data_X.csv";
-        final String inputPathY = "resources/original_data/data_Y.csv";
-        final String inputSample = "resources/original_data/sample_submission.csv";
+    public static void convertAllCsvToArff(String inputPathX,String inputPathY,String inputSample) throws Exception {
 
         final String outputArffX = "resources/processed_data/data_X.arff";
         saveDataXToArff(inputPathX, outputArffX);
@@ -859,10 +932,7 @@ public class Main {
         System.out.println("Model saved to: " + modelFilePath);
     }
 
-    public static void processFiles() throws Exception {
-        String dataXPath = "resources/original_data/data_X.csv";
-        String dataYPath = "resources/original_data/data_Y.csv";
-        String samplePath = "resources/original_data/sample_submission.csv";
+    public static void processFiles(String dataXPath,String dataYPath,String samplePath ) throws Exception {
 
         String[][] dataX = readData(dataXPath);
         String[][] dataY = readData(dataYPath);
@@ -1070,10 +1140,7 @@ public class Main {
     }
 
 
-    public static void processFileCombine() throws Exception {
-        String dataXPath = "resources/original_data/data_X.csv";
-        String dataYPath = "resources/original_data/data_Y.csv";
-        String samplePath = "resources/original_data/sample_submission.csv";
+    public static void processFileCombine(String dataXPath,String dataYPath,String samplePath) throws Exception {
 
         String[][] dataX = readData(dataXPath);
         String[][] dataY = readData(dataYPath);
