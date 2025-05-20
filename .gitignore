@@ -1,50 +1,49 @@
-# Compiled class file
+# Compiled Java class files
 *.class
 
-# Bỏ qua file biên dịch Java
-*.class
-
-# Thư mục build (Gradle, Maven)
+# Ignore Java build directories (Gradle, Maven)
 build/
 target/
 
-# Các thiết lập của IDE
+# IDE settings
 .idea/
 *.iml
 *.iws
 *.ipr
 
-# Eclipse
+# Eclipse project files
 .project
 .classpath
 .settings/
 bin/
 
-# NetBeans
-nbproject/private/
+# NetBeans project files
+nbproject/
 build/
 nbbuild/
 dist/
 nbdist/
 .nb-gradle/
 
-# Log, tệp tạm thời
+# Log and temporary files
 *.log
 *.tmp
 *.swp
 .DS_Store
 
-# Package Files #
-*.jar
+# Package files
 *.war
 *.nar
 *.ear
 *.zip
 *.tar.gz
 *.rar
+
+# Data files
 *.csv
 *.arff
 *.model
 
+# Resource and VSCode folders
 /resources/
-/.vscode/
+.vscode/
